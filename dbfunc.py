@@ -8,8 +8,9 @@ import cv2
 import caffe
 from caffe.proto import caffe_pb2
 import lmdb
+from datetime import datetime
 
-
+TIME = datetime.now()
 IMAGE_WIDTH = 227
 IMAGE_HEIGHT = 227
 
@@ -48,6 +49,9 @@ with training_db.begin(write=True) as txn:
 		if id%6 == 0:
 			continue
 		img = cv2.imread(path, cv2.IMREAD_COLOR)
+		cv2.namedWindow("Picture")
+		cv2.imshow("Picture", img)
+		cv2.waitKey(100)
 		img = modify(img)
 		if "cat" in path:
 			label = 0
@@ -56,5 +60,34 @@ with training_db.begin(write=True) as txn:
 		datum = to_datum_and_beyond(img, label)
 		txn.put("{:0>5d}".format(id), datum.SerializeToString())
 		print "{:0>5d}".format(id) + ":" + path
-		print label
+		if label == 0:
+			print "Kihha!!!"
+		else:
+			print "Doggo!!!"
 training_db.close()
+
+validation_db = lmdb.open(validation_lmdb, map_size=int(1e10))
+
+with validation_db.beging(write=True) as txn:
+	for id, path in enumerate(training_data):
+		if id%6 != 0:
+			continue
+		img = cv2.imread(path, cv2.IMREAD_color)
+		cv2.namedWindow("Picture")
+		cv2.imshow("Picture", img)
+		cv2.waitKey(100)
+		img = modify(img)
+		if "cat" in path:
+			label = 0
+		else:
+			label = 1
+		datum = to_datum_and_beyond(img, label)
+		txn.put("{:0>5d}".format(id), datum.SerializeToString())
+		print "{:0>5d}".format(id) + ":" + path
+		if label == 0:
+			print "Kihha!!!"
+		else:
+			print "Doggo!!!"
+validation_db.close()
+
+print "\nAll my bases are done\nRuntime was " + str(datetime.now()-TIME)
