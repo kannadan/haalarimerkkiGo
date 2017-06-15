@@ -1,2 +1,7 @@
 train/
 test1/
+training_lmdb/
+validation_lmdb/data.mdb
+validation_lmdb/lock.mdb
+training_lmdb/
+mean.binaryproto
