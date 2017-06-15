@@ -51,6 +51,7 @@ with training_db.begin(write=True) as txn:
 			continue
 #		elif my_id > 100:
 #			break
+
 		img = cv2.imread(path, cv2.IMREAD_COLOR)
 		cv2.namedWindow("Picture")
 		cv2.imshow("Picture", img)
@@ -63,11 +64,13 @@ with training_db.begin(write=True) as txn:
 		datum = to_datum_and_beyond(img, label)
 		txn.put("{:0>5d}".format(my_id), datum.SerializeToString())
 		print "{:0>5d}".format(my_id) + ":" + path
+
 		if label == 0:
 			print "Kihha!!!"
 		else:
 			print "Doggo!!!"
 training_db.close()
+
 
 time.sleep(60)
 
@@ -90,6 +93,7 @@ with validation_db.begin(write=True) as txn:
 		datum = to_datum_and_beyond(img, label)
 		txn.put("{:0>5d}".format(my_id), datum.SerializeToString())
 		print "{:0>5d}".format(my_id) + ":" + path
+
 		if label == 0:
 			print "Kihha!!!"
 		else:
