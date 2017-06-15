@@ -22,7 +22,7 @@ layer {
 #  }
   data_param {
     source: "/home/jondan/Documents/Ohjelmat/haalarimerkkiGo/training_lmdb"
-    batch_size: 256
+    batch_size: 64
     backend: LMDB
   }
 }
