@@ -1,5 +1,7 @@
 train/
 test1/
+kuvat/
+testiKuvat/
 training_lmdb/
 validation_lmdb/data.mdb
 validation_lmdb/lock.mdb
@@ -7,3 +9,4 @@ training_lmdb/
 mean.binaryproto
 caffe_model_1_iter_5000.solverstate
 caffe_model_1_iter_5000.caffemodel
+model_1_train.log

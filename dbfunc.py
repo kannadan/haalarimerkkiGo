@@ -38,8 +38,7 @@ os.system('rm -rf  ' + training_lmdb)
 os.system('rm -rf  ' + validation_lmdb)
 
 #fetch images
-training_data = [img for img in glob.glob("./train/*jpg")]
-validation_data = [img for img in glob.glob("./test1/*jpg")]
+training_data = [img for img in glob.glob("./kuvat/*jpg")]
 
 random.shuffle(training_data)
 
@@ -53,22 +52,33 @@ with training_db.begin(write=True) as txn:
 #			break
 
 		img = cv2.imread(path, cv2.IMREAD_COLOR)
-		cv2.namedWindow("Picture")
-		cv2.imshow("Picture", img)
-		cv2.waitKey(100)
 		img = modify(img)
-		if "cat" in path:
+		if "deeggari" in path:
 			label = 0
-		else:
+		elif "friday" in path:
 			label = 1
+		elif "heijastin" in path:
+			label = 2
+		elif "leivo" in path:
+			label = 3
+		elif "longcat" in path:
+			label = 4
+		elif "mkrapula" in path:
+			label = 5
+		elif "pasila" in path:
+			label = 6
+		elif "sieni" in path:
+			label = 7
+		elif "teekkari" in path:
+			label = 8
+		elif "tnainen" in path:
+			label = 9
+		else:
+			continue
 		datum = to_datum_and_beyond(img, label)
 		txn.put("{:0>5d}".format(my_id), datum.SerializeToString())
 		print "{:0>5d}".format(my_id) + ":" + path
 
-		if label == 0:
-			print "Kihha!!!"
-		else:
-			print "Doggo!!!"
 training_db.close()
 
 
@@ -82,22 +92,32 @@ with validation_db.begin(write=True) as txn:
 #		elif my_id > 100:
 #			break
 		img = cv2.imread(path, cv2.IMREAD_COLOR)
-		cv2.namedWindow("Picture")
-		cv2.imshow("Picture", img)
-		cv2.waitKey(100)
 		img = modify(img)
-		if "cat" in path:
+		if "deeggari" in path:
 			label = 0
-		else:
+		elif "friday" in path:
 			label = 1
+		elif "heijastin" in path:
+			label = 2
+		elif "leivo" in path:
+			label = 3
+		elif "longcat" in path:
+			label = 4
+		elif "mkrapula" in path:
+			label = 5
+		elif "pasila" in path:
+			label = 6
+		elif "sieni" in path:
+			label = 7
+		elif "teekkari" in path:
+			label = 8
+		elif "tnainen" in path:
+			label = 9
+		else:
+			continue
 		datum = to_datum_and_beyond(img, label)
 		txn.put("{:0>5d}".format(my_id), datum.SerializeToString())
 		print "{:0>5d}".format(my_id) + ":" + path
-
-		if label == 0:
-			print "Kihha!!!"
-		else:
-			print "Doggo!!!"
 validation_db.close()
 
 print "\nAll my bases are done\nRuntime was " + str(datetime.now()-TIME)
