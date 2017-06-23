@@ -91,4 +91,6 @@ for path in img_paths:
 	cv2.imshow(name, img)
 	cv2.waitKey(2000)
 	cv2.destroyAllWindows()"""
+
+	
 print "Kuvia: {}\nOikein: {}\nTarkkuus: {}".format(kuvia, oikein, float(oikein)/kuvia)
